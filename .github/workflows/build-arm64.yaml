@@ -18,7 +18,7 @@ jobs:
     - name: Download meta 🔧
       uses: luet-lab/luet-github-action@v0.3.1
       with:
-        FINAL_REPO: quay.io/kairos/packages-arm64
+        FINAL_REPO: ghcr.io/jncfa/packages-arm64
         REPOSITORY_TYPE: docker
         downloadAllMeta: true
         downloadFromList: false
