@@ -1,0 +1,46 @@
+From eaf2aa1c4c34a69bea550f4e57b8b89da0e0509c Mon Sep 17 00:00:00 2001
+From: jncfa <20467009+jncfa@users.noreply.github.com>
+Date: Sat, 21 Jun 2025 01:01:32 +0200
+Subject: [PATCH] use workaround for 16GB RPi
+
+---
+ board/raspberrypi/rpi/rpi.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/board/raspberrypi/rpi/rpi.c b/board/raspberrypi/rpi/rpi.c
+index 70d3c35499b..0f14ad51708 100644
+--- a/board/raspberrypi/rpi/rpi.c
++++ b/board/raspberrypi/rpi/rpi.c
+@@ -101,7 +101,11 @@ static const struct rpi_model rpi_model_unknown = {
+ 	DTB_DIR "bcm283x-rpi-other.dtb",
+ 	false,
+ };
+-
++static const struct rpi_model rpi_16gb_hack = 	{
++	"5 Model B 16GB",
++	DTB_DIR "bcm2712d0-rpi-5-b.dtb",
++	true,
++};
+ static const struct rpi_model rpi_models_new_scheme[] = {
+ 	[0x0] = {
+ 		"Model A",
+@@ -518,7 +522,15 @@ static void get_board_revision(void)
+ 		printf("RPI: Board rev 0x%x unknown\n", rev_type);
+ 		model = &rpi_model_unknown;
+ 	} else {
+-		model = &models[rev_type];
++		// check if its a RPi 5B 16GB
++		// if yes then use specific different dtb
++		int mem = (revision >> 20) & 0x7;
++		if (mem == 6 && rev_type == 0x17){
++			model = &rpi_16gb_hack;
++		}
++		else{
++			model = &models[rev_type];
++		}
+ 	}
+ 
+ 	printf("RPI %s (0x%x)\n", model->name, revision);
+-- 
+2.34.1
+
