@@ -18,7 +18,7 @@ jobs:
     - name: Download meta 🔧
       uses: luet-lab/luet-github-action@v0.3.1
       with:
-        FINAL_REPO: quay.io/kairos/packages
+        FINAL_REPO: ghcr.io/jncfa/packages
         REPOSITORY_TYPE: docker
         downloadAllMeta: true
         downloadFromList: false
@@ -32,10 +32,10 @@ jobs:
         build: true
         fromIndex: true
         onlyMissing: true
-        FINAL_REPO: quay.io/kairos/packages
-        DOCKER_USERNAME: ${{ secrets.QUAY_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-        DOCKER_ENDPOINT: quay.io
+        FINAL_REPO: ghcr.io/jncfa/packages
+        DOCKER_USERNAME: GITHUB_TOKEN
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        DOCKER_ENDPOINT: ghcr.io
         REPOSITORY_TYPE: docker
         pushFinalImages: true
         pushCache: true
@@ -47,10 +47,10 @@ jobs:
       id: create_repo
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       with:
-        FINAL_REPO: quay.io/kairos/packages
-        DOCKER_USERNAME: ${{ secrets.QUAY_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-        DOCKER_ENDPOINT: quay.io
+        FINAL_REPO: ghcr.io/jncfa/packages
+        DOCKER_USERNAME: GITHUB_TOKEN
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        DOCKER_ENDPOINT: ghcr.io
         REPOSITORY_TYPE: docker
         createRepo: true
         pushCache: true
@@ -59,4 +59,4 @@ jobs:
         luetVersion: 0.36.0
     - name: Summary info
       run: |
-        echo "Repo created at quay.io/kairos/packages:${{ steps.create_repo.outputs.LUET_PUSHED_REPO }}-repository.yaml" >> $GITHUB_STEP_SUMMARY
+        echo "Repo created at ghcr.io/jncfa/packages:${{ steps.create_repo.outputs.LUET_PUSHED_REPO }}-repository.yaml" >> $GITHUB_STEP_SUMMARY

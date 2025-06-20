@@ -32,10 +32,10 @@ jobs:
         build: true
         fromIndex: true
         onlyMissing: true
-        FINAL_REPO: quay.io/kairos/packages-arm64
-        DOCKER_USERNAME: ${{ secrets.QUAY_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-        DOCKER_ENDPOINT: quay.io
+        FINAL_REPO: ghcr.io/jncfa/packages-arm64
+        DOCKER_USERNAME: GITHUB_TOKEN
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        DOCKER_ENDPOINT: ghcr.io
         REPOSITORY_TYPE: docker
         pushFinalImages: true
         pushCache: true
@@ -50,10 +50,10 @@ jobs:
       id: create_repo
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       with:
-        FINAL_REPO: quay.io/kairos/packages-arm64
-        DOCKER_USERNAME: ${{ secrets.QUAY_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-        DOCKER_ENDPOINT: quay.io
+        FINAL_REPO: ghcr.io/jncfa/packages-arm64
+        DOCKER_USERNAME: GITHUB_TOKEN
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        DOCKER_ENDPOINT: ghcr.io
         REPOSITORY_TYPE: docker
         createRepo: true
         pushCache: true
@@ -63,4 +63,4 @@ jobs:
         luetVersion: 0.36.0
     - name: Summary info
       run: |
-        echo "Repo created at quay.io/kairos/packages-arm64:${{ steps.create_repo.outputs.LUET_PUSHED_REPO }}-repository.yaml" >> $GITHUB_STEP_SUMMARY
+        echo "Repo created at ghcr.io/jncfa/packages-arm64:${{ steps.create_repo.outputs.LUET_PUSHED_REPO }}-repository.yaml" >> $GITHUB_STEP_SUMMARY
