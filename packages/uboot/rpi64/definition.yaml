@@ -1,8 +1,7 @@
 name: "rpi64"
 category: "uboot"
-version: "v2025.04"
+version: "2025.04"
 labels:
   github.repo: "u-boot"
   github.owner: "u-boot"
   autobump.skip_if_contains: '["rc"]'
-arch: "arm64"
